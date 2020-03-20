@@ -21,7 +21,8 @@ class SubscriptionsController < ApplicationController
 
 	def fetch_customer
 		Stripe.api_key = ENV['STRIPEAPIKEY']
-		url = URI("https://api.stripe.com/v1/search?query='hnr@gmmail.com'&prefix=false")
+		user_email = current_user.email
+		url = URI("https://api.stripe.com/v1/search?query='#{user_email}'&prefix=false")
 
 		http = Net::HTTP.new(url.host, url.port)
 		http.use_ssl = true
@@ -29,12 +30,12 @@ class SubscriptionsController < ApplicationController
 
 		request = Net::HTTP::Get.new(url)
 		request["content-type"] = 'application/json'
-		request["authorization"] = 'Bearer sk_test_dPCRXazafB6SNPrYTtItmONF'
+		request["authorization"] = "Bearer #{ENV['STRIPE_AUTHORIZATION']}"
 
 		response = http.request(request)
-	  result  =JSON.parse(response.body)
+	  	result  =JSON.parse(response.body)
 		result = result["data"]
-		@res_arr = [] 
+		@res_arr = []
 		result.each do |i|
 		 @res_arr << i["id"] if i["object"] == "customer"
 		end
@@ -42,6 +43,7 @@ class SubscriptionsController < ApplicationController
 	end
 
 	def login_user_subscription(customer_ids)
+		Stripe.api_key = ENV['STRIPEAPIKEY']
 		subscriptions = Stripe::Subscription.list()
 		subscriptions = subscriptions["data"]
 		@subs_list = [] 
