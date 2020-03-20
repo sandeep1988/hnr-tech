@@ -20,7 +20,7 @@ class SubscriptionsController < ApplicationController
 	private
 
 	def fetch_customer
-		Stripe.api_key = ENV['STRIPEAPIKEY']
+		Stripe.api_key = "sk_test_dPCRXazafB6SNPrYTtItmONF" #ENV['STRIPEAPIKEY']
 		user_email = current_user.email
 		url = URI("https://api.stripe.com/v1/search?query='#{user_email}'&prefix=false")
 
@@ -43,7 +43,7 @@ class SubscriptionsController < ApplicationController
 	end
 
 	def login_user_subscription(customer_ids)
-		Stripe.api_key = ENV['STRIPEAPIKEY']
+		Stripe.api_key = "sk_test_dPCRXazafB6SNPrYTtItmONF" #ENV['STRIPEAPIKEY']
 		subscriptions = Stripe::Subscription.list()
 		subscriptions = subscriptions["data"]
 		@subs_list = [] 
