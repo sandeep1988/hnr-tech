@@ -30,7 +30,7 @@ class SubscriptionsController < ApplicationController
 
 		request = Net::HTTP::Get.new(url)
 		request["content-type"] = 'application/json'
-		request["authorization"] = "Bearer #{ENV['STRIPE_AUTHORIZATION']}"
+		request["authorization"] = "Bearer sk_test_dPCRXazafB6SNPrYTtItmONF"
 
 		response = http.request(request)
 	  	result  =JSON.parse(response.body)
