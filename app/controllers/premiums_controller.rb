@@ -73,7 +73,7 @@ class PremiumsController < ApplicationController
 	end
 
 	def subscribe(user)
-		Stripe.api_key = "sk_test_dPCRXazafB6SNPrYTtItmONF" #ENV['STRIPEAPIKEY']
+		Stripe.api_key = ENV['STRIPEAPIKEY']
 		customer = create_customer(user)
 		cust_plan = customer_plan(user)
 		source = create_source(user)
